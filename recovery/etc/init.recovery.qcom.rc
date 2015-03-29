@@ -1,0 +1,23 @@
+on init
+    mkdir /cust
+
+    # vm_bms
+    chown root system /sys/class/power_supply/bms/current_now
+    chown root system /sys/class/power_supply/bms/voltage_ocv
+    chmod 0664 /sys/class/power_supply/bms/current_now
+    chmod 0664 /sys/class/power_supply/bms/voltage_ocv
+    start vm_bms
+
+on boot
+
+service vm_bms /sbin/vm_bms
+    user root
+    group root
+    disabled
+
+#start modem in recovery
+service rmt_storage /sbin/rmt_storage_recovery
+    user root
+
+service rmt_oeminfo /sbin/rmt_oeminfo_recovery
+    oneshot
